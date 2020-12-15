@@ -1,0 +1,4 @@
+<map id="TASK5::ConcreteObserver" name="TASK5::ConcreteObserver">
+<area shape="rect" id="node2" href="$d1/d7e/classTASK5_1_1IObserver.html" title="A class defining the interface of an observer used for the classical observer design pattern..." alt="" coords="5,5,135,32"/>
+<area shape="rect" id="node3" href="$d0/d31/classTASK5_1_1ISubject.html" title="A class defining the interface of a subject used for the classical observer design pattern..." alt="" coords="159,5,279,32"/>
+</map>

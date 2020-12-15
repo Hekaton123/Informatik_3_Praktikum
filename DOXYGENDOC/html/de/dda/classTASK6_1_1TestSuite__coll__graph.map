@@ -1,0 +1,7 @@
+<map id="TASK6::TestSuite" name="TASK6::TestSuite">
+<area shape="rect" id="node2" href="$df/d22/classTASK6_1_1TestItem.html" title="Implementation of the core functions for all derived classes of the unit test framework. " alt="" coords="7,81,131,108"/>
+<area shape="rect" id="node6" href="$d4/d02/classTASK6_1_1Element.html" title="TASK6::Element\&lt; TASK6\l::TestItem * \&gt;" alt="" coords="86,171,261,212"/>
+<area shape="rect" id="node3" href="$d4/dff/classTASK6_1_1ITestItem.html" title="Interface class of unit testing classes. In general a test item conaitns either a a specific test or ..." alt="" coords="5,5,133,32"/>
+<area shape="rect" id="node4" href="$db/d12/classTASK6_1_1Queue.html" title="TASK6::Queue\&lt; TASK6\l::TestItem * \&gt;" alt="" coords="86,380,250,421"/>
+<area shape="rect" id="node5" href="$db/da7/classTASK6_1_1List.html" title="TASK6::List\&lt; TASK6\l::TestItem * \&gt;" alt="" coords="96,289,243,331"/>
+</map>

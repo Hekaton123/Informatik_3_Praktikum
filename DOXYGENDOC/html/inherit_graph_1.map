@@ -1,0 +1,5 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$de/d87/classTASK1_1_1IBlackBox.html" title="Interface class for password check classes. " alt="" coords="5,5,137,32"/>
+<area shape="rect" id="node2" href="$d9/df4/classTASK1_1_1BlackBoxUnsafe.html" title="Implements a unsafe password checker where the password is stored as plan text. " alt="" coords="185,5,356,32"/>
+<area shape="rect" id="node3" href="$dd/db4/classTASK1_1_1BlackBoxSafe.html" title="Implements a more safe password checker where only the password&#39;s checksum is stored. " alt="" coords="404,5,559,32"/>
+</map>

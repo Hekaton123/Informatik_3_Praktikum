@@ -1,0 +1,22 @@
+var searchData=
+[
+  ['senddata',['sendData',['../db/dc7/classTCPclient.html#a202a35dd543c3a17e09ce1a944f7d711',1,'TCPclient']]],
+  ['setsubject',['setSubject',['../d9/d9f/classTASK5_1_1WebCamObserver.html#a41dccc9677ca8e6b592e021ed3b19440',1,'TASK5::WebCamObserver']]],
+  ['sha256',['SHA256',['../d9/d81/classSHA256.html',1,'']]],
+  ['sha256_2eh',['SHA256.H',['../d1/dd4/SHA256_8H.html',1,'']]],
+  ['ship',['Ship',['../d2/db2/classTASK3_1_1Ship.html',1,'TASK3']]],
+  ['ship_5fdestroyed',['SHIP_DESTROYED',['../d3/d58/namespaceTASK3.html#a4c01401bf443f4e42dad1efc306ffdd3ac257a0df021a2dc2bcacdc46a9fb200f',1,'TASK3']]],
+  ['ship_5fhit',['SHIP_HIT',['../d3/d58/namespaceTASK3.html#a4c01401bf443f4e42dad1efc306ffdd3a854c6d878973d0da0560e7c399f8ff32',1,'TASK3']]],
+  ['shipstate',['ShipState',['../d3/d58/namespaceTASK3.html#af5c38a336f1e067e6bba054c3fe3e9f9',1,'TASK3']]],
+  ['shiptype',['ShipType',['../d3/d58/namespaceTASK3.html#a89d9b9ab82bb91053203162d804d253e',1,'TASK3']]],
+  ['shoot',['shoot',['../d1/d6d/classTASK3_1_1World.html#ac8bfed3e340ddf6f66921d537574eca9',1,'TASK3::World']]],
+  ['shootresult',['ShootResult',['../d3/d58/namespaceTASK3.html#a4c01401bf443f4e42dad1efc306ffdd3',1,'TASK3']]],
+  ['simfileserver',['SimFileServer',['../d4/d07/classTASK2_1_1SimFileServer.html#a54f0d5c946ac33ce49b759da9362658f',1,'TASK2::SimFileServer']]],
+  ['simfileserver',['SimFileServer',['../d4/d07/classTASK2_1_1SimFileServer.html',1,'TASK2']]],
+  ['simplesocket_2eh',['SIMPLESOCKET.H',['../d0/d81/SIMPLESOCKET_8H.html',1,'']]],
+  ['size',['size',['../dc/dd6/classTASK5_1_1Subject.html#abb9e839430d87ab57391052c9d9d62ff',1,'TASK5::Subject']]],
+  ['size_5f',['size_',['../dc/dd6/classTASK5_1_1Subject.html#a958bb703f1b5483f1b7a6319e3d119cd',1,'TASK5::Subject']]],
+  ['subject',['Subject',['../dc/dd6/classTASK5_1_1Subject.html#a54c72f878989206ed4ff225c600261f1',1,'TASK5::Subject']]],
+  ['subject',['Subject',['../dc/dd6/classTASK5_1_1Subject.html',1,'TASK5']]],
+  ['symbols',['SYMBOLS',['../de/dff/namespaceTASK1.html#afd401fe5db7996ecce6b965d26a80022',1,'TASK1']]]
+];

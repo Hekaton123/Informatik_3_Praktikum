@@ -1,0 +1,5 @@
+<map id="InputTest_A" name="InputTest_A">
+<area shape="rect" id="node2" href="$d3/d67/classTASK6_1_1TestCase.html" title="Implementation of the class for defining a test case. " alt="" coords="5,155,135,181"/>
+<area shape="rect" id="node3" href="$df/d22/classTASK6_1_1TestItem.html" title="Implementation of the core functions for all derived classes of the unit test framework. " alt="" coords="8,80,132,107"/>
+<area shape="rect" id="node4" href="$d4/dff/classTASK6_1_1ITestItem.html" title="Interface class of unit testing classes. In general a test item conaitns either a a specific test or ..." alt="" coords="6,5,134,32"/>
+</map>

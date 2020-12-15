@@ -1,0 +1,5 @@
+<map id="TASK5::WebCamSubject" name="TASK5::WebCamSubject">
+<area shape="rect" id="node2" href="$dc/dd6/classTASK5_1_1Subject.html" title="The class defining the of a subject used for the classical observer&#45;pattern. " alt="" coords="82,95,198,121"/>
+<area shape="rect" id="node3" href="$d0/d31/classTASK5_1_1ISubject.html" title="A class defining the interface of a subject used for the classical observer design pattern..." alt="" coords="5,5,125,32"/>
+<area shape="rect" id="node4" href="$d1/d7e/classTASK5_1_1IObserver.html" title="A class defining the interface of an observer used for the classical observer design pattern..." alt="" coords="150,5,279,32"/>
+</map>

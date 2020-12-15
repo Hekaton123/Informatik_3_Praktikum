@@ -1,0 +1,5 @@
+<map id="TASK5::WebCamObserver" name="TASK5::WebCamObserver">
+<area shape="rect" id="node3" href="$d6/d5a/classTASK5_1_1WebCamObserverDownscale.html" title="Implements the view of the down scaled rgb image data. " alt="" coords="5,155,251,181"/>
+<area shape="rect" id="node4" href="$db/ddf/classTASK5_1_1WebCamObserverGray.html" title="Implements the view of the gray value image data. " alt="" coords="275,155,483,181"/>
+<area shape="rect" id="node2" href="$d1/d7e/classTASK5_1_1IObserver.html" title="A class defining the interface of an observer used for the classical observer design pattern..." alt="" coords="189,5,318,32"/>
+</map>

@@ -1,0 +1,8 @@
+<map id="TASK6::ITestItem" name="TASK6::ITestItem">
+<area shape="rect" id="node2" href="$df/d22/classTASK6_1_1TestItem.html" title="Implementation of the core functions for all derived classes of the unit test framework. " alt="" coords="173,80,297,107"/>
+<area shape="rect" id="node3" href="$d3/d67/classTASK6_1_1TestCase.html" title="Implementation of the class for defining a test case. " alt="" coords="94,155,223,181"/>
+<area shape="rect" id="node6" href="$d7/d0f/classTASK6_1_1TestSuite.html" title="This class implements a test suite for unit testing. " alt="" coords="248,155,376,181"/>
+<area shape="rect" id="node4" href="$d5/d48/classInputTest__A.html" title="InputTest_A" alt="" coords="5,229,99,256"/>
+<area shape="rect" id="node5" href="$db/db3/classInputTest__B.html" title="InputTest_B" alt="" coords="123,229,216,256"/>
+<area shape="rect" id="node7" href="$d4/d9a/classTASK6_1_1UnitTest.html" title="Implements the unit test class. " alt="" coords="251,229,373,256"/>
+</map>

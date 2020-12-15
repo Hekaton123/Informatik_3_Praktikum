@@ -1,0 +1,7 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$d1/d7e/classTASK5_1_1IObserver.html" title="A class defining the interface of an observer used for the classical observer design pattern..." alt="" coords="5,31,135,57"/>
+<area shape="rect" id="node2" href="$da/dc8/classTASK5_1_1ConcreteObserver.html" title="TASK5::ConcreteObserver" alt="" coords="183,5,362,32"/>
+<area shape="rect" id="node3" href="$d9/d9f/classTASK5_1_1WebCamObserver.html" title="Implements the view of the RGB image data. " alt="" coords="183,56,363,83"/>
+<area shape="rect" id="node4" href="$d6/d5a/classTASK5_1_1WebCamObserverDownscale.html" title="Implements the view of the down scaled rgb image data. " alt="" coords="411,31,656,57"/>
+<area shape="rect" id="node5" href="$db/ddf/classTASK5_1_1WebCamObserverGray.html" title="Implements the view of the gray value image data. " alt="" coords="429,81,637,108"/>
+</map>
