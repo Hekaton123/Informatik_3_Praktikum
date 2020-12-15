@@ -29,6 +29,9 @@ using namespace std;
 int main(){
 	srand(time(nullptr));
 
+	using namespace TASK3;
+	demoTask3();
+
     return 0;
 }
 

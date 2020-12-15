@@ -19,8 +19,21 @@
 #include "SIMPLESOCKET.H"
 
 
+class myTCPserver : public TCPserver{
+public:
+	myTCPserver(int port, int maxDataSizeRecv) : TCPserver(port, maxDataSizeRecv){;}
+
+protected:
+	string        myResponse(string input);
+};
+
+string myTCPserver::myResponse(string input){
+	return string("Hallo Welt!");
+}
 int main(){
 	srand(time(nullptr));
-	TCPserver srv(2022,25);
+	myTCPserver srv(2022,25);
 	srv.run();
 }
+
+
