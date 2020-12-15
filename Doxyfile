@@ -2425,3 +2425,23 @@ GENERATE_LEGEND        = YES
 # This tag requires that the tag HAVE_DOT is set to YES.
 
 DOT_CLEANUP            = YES
+
+
+1.0 Erstellen eines Git-Reposetorie. //Christoph
+    https://github.com/Hekaton123?tab=repositories
+
+1.1 Erstellung einer eigenen Entwicklungsumgebung unter Linux
+    Dateiversion: Ubuntu 16.04
+    Passwort: ubuntu
+    Ausführung mit Oracle Virtuel Box
+
+1.2 Integration der gegebenen Software in ihre Entwicklungsumgebung
+    https://github.com/Hekaton123/Informatik_3_Praktikum
+
+1.3 
+     
+
+
+
+
+

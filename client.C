@@ -7,6 +7,7 @@
 
 #include <string>
 #include <iostream>
+#include <math.h>
 #include <unistd.h> //contains various constants
 
 #include "SIMPLESOCKET.H"
