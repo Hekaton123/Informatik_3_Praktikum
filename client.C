@@ -10,6 +10,7 @@
 #include <math.h>
 #include <unistd.h> //contains various constants
 #include <sstream>
+#include <time.h>
 
 
 #include "SIMPLESOCKET.H"
@@ -22,6 +23,10 @@ public:
 	string processSec(string message);              //Arbeitet mit den Antworten des Servers
 	string processDia(string message);              //Arbeitet mit den Antworten des Servers
 	int getSteps();
+	int EveryField();
+	int Random();
+	int Sec();
+	int Dia();
 
 
 protected:
@@ -31,19 +36,18 @@ private:
 	int last_Y;
 	int ** ocean;                                //Spielfeld des Clients
 	void nextSECStep();                          //Sucht das nächste noch nicht betrachtete Feld in zweier Schritten
+	void nextSECStepAH();                         //Sucht nachdem ein Schiff zerstört wurde, das nächste noch nicht betrachtete Feld in zweier Schritten ausgehend vom ersten Treffer an dem Schiff
 	void nextDIAStep();                          //Sucht das nächste noch nicht betrachtete Feld in einer festgelegten Diagonalen
 	bool used(int x, int y);                     //Überprüft ob die Stell (X/Y) schon betrachtet wurde
 	int steps;                                   //Zählt die Anzahl der benötigten Züge
 	int max_X;
 	int max_Y;
 	int direction;                               //Beschreibt die Ausrichtung des Schiffs, wenn ein treffer erzielt wurde
-	int getlX();
-	int getlY();
-	int getmX();
-	int getmY();
 	void findShip();                             //Sucht die nächste mögliche Stelle, wenn nach einem treffer wieder das Wasser getroffen worden ist
     bool hasNeighbor();                          //Überprüft, ob das Schiff bereits einen treffer hat
     void destroy();
+    int lastHit_X;
+    int lastHit_Y;
     //int phase;                                   //Abstand Schritte, bei der diagonalen Variante
 };
 
@@ -58,6 +62,8 @@ myTCPclient::myTCPclient(){
 		ocean[i] = new int[max_Y];
 	}
 	direction = 0;
+	lastHit_X = 0;
+	lastHit_Y = 0;
 	//phase = 0;
 }
 
@@ -65,23 +71,9 @@ int myTCPclient::getSteps(){
 	return steps;
 }
 
-int myTCPclient::getlX(){
-	return last_X;
-}
-
-int myTCPclient::getlY(){
-	return last_Y;
-}
-
-int myTCPclient::getmX(){
-	return max_X;
-}
-
-int myTCPclient::getmY(){
-	return max_Y;
-}
 
 bool myTCPclient::used(int x, int y){
+	cout << x << y;
 	return !ocean[x][y] == 0;
 }
 
@@ -112,41 +104,76 @@ bool myTCPclient::hasNeighbor(){
 			default:
 				break;
 			}
-	/*if(ocean[last_X][last_Y - 1] == 2 || ocean[last_X - 1][last_Y] == 2 || ocean[last_X][last_Y + 1] == 2 || ocean[last_X + 1][last_Y] == 2){
-		tmp = true;
-	}*/https://fh-bielefeld.zoom.us/j/98276110795?pwd=clIwaUJIQUxuMTdQSGdibHlEaTZmQT09
 	return tmp;
 }
 
 void myTCPclient::nextSECStep(){
-	bool a = false;
-	int x = 0;
-	int y = 0;
+	/*bool a = false;
+		int x = 0;
+		int y = 0;
 
-	if(steps > 0){
-		for(int i = 0; i < max_Y; i++){
-				for(int j = 0; j < max_X; j++){
-					if(!used(max_X, max_Y)){
-						if(!a){
-							a = true;
+		if(steps > 0){
+			for(int i = 0; i < max_Y; i++){
+					for(int j = 0; j < max_X; j++){
+						if(!used(max_X, max_Y)){
+							if(!a){
+								a = true;
+							}
+							else{
+								x = j;
+								y = i;
+								i = max_X;
+								j = max_Y;
+							}
 						}
 						else{
-							x = j;
-							y = i;
-							i = max_X;
-							j = max_Y;
+							a = false;
 						}
 					}
-					else{
-						a = false;
-					}
 				}
-			}
+		}
+
+
+		last_X = x;
+		last_Y = y;*/
+
+	int x = last_X;
+	int y = last_Y;
+
+	while(used(x, y)){
+		if((x + 2) < max_X){
+				x = x + 2;
+		}
+		else {
+			x = max_X - (x + 2);
+			y++;
+		}
+
 	}
 
+		last_X = x;
+		last_Y = y;
+}
+
+void myTCPclient::nextSECStepAH(){
+
+	int x = lastHit_X;
+	int y = lastHit_Y;
+
+	while(used(x, y)){
+		if((x + 2) < max_X){
+			x = x + 2;
+		}
+		else {
+			x = max_X - (x + 2);
+			y++;
+		}
+
+	}
 
 	last_X = x;
 	last_Y = y;
+
 }
 
 void myTCPclient::nextDIAStep(){
@@ -190,28 +217,24 @@ void myTCPclient::findShip(){
 			while(used(x, y)){
 				y++;
 			}
-			y++;
 			break;
 		case 2:
 			direction = 4;
 			while(used(x, y)){
-				x--;
+				x++;
 			}
-			x--;
 			break;
 		case 3:
 			direction = 1;
 			while(used(x, y)){
 				y--;
 			}
-			y--;
 			break;
 		case 4:
 			direction = 2;
 			while(used(x, y)){
-				x++;
+				x--;
 			}
-			x++;
 			break;
 		default:
 			break;
@@ -219,13 +242,32 @@ void myTCPclient::findShip(){
 	}
 	else{
 
+		switch(direction){         //X und Y auf Position des Treffers setzen
+		case 1:
+			y++;
+		  break;
+		case 2:
+			x++;
+		  break;
+		case 3:
+			y--;
+		  break;
+		case 4:
+			x--;
+		  break;
+		default:
+		  break;
+
+		}
+
+
 		bool possible = false;
 
 		while(direction < 4 && !possible){
 				direction++;
 				switch(direction){
 				case 1:
-					if(!used(last_X, last_Y - 1) && last_Y >= 0){
+					if(!used(x, y - 1) && y >= 0){
 						y--;
 						possible = true;
 					}
@@ -234,7 +276,7 @@ void myTCPclient::findShip(){
 					}
 					break;
 				case 2:
-					if(!used(last_X - 1, last_Y) && last_X >= 0){
+					if(!used(x - 1, y) && x >= 0){
 						x--;
 						possible = true;
 					}
@@ -243,7 +285,7 @@ void myTCPclient::findShip(){
 					}
 					break;
 				case 3:
-					if(!used(last_X, last_Y + 1) && last_Y < max_Y){
+					if(!used(x, y + 1) && y < max_Y){
 						y++;
 						possible = true;
 					}
@@ -252,7 +294,7 @@ void myTCPclient::findShip(){
 					}
 					break;
 				case 4:
-					if(!used(last_X + 1, last_Y) && last_X < max_X){
+					if(!used(x + 1, y) && x < max_X){
 						x++;
 						possible = true;
 					}
@@ -293,26 +335,53 @@ void myTCPclient::destroy(){
 		    	else if(!used(x + 1, y) && (x + 1) < max_X){
 		 	        direction = 4;
 		            x++;
-		    }
+		        }
+		        lastHit_X = last_X;
+		        lastHit_Y = last_Y;
+
 	 }
 		    else if(direction == 1){                            //Ausrichtung nach Oben
 		    	if(!used(x, y - 1) && (y - 1) >= 0){
 		    		y--;
 		        }
+		    	else{
+		    		direction = 3;
+		    		while(used(x, y)){
+		    			y++;
+		    		}
+		    	}
 		    }
 		    else if(direction == 2){                            //Ausrichtung nach Links
 		    	if(!used(x - 1, y) && (x - 1) >= 0){
-		    	    x--;
+		    	}
+		    	else{
+		    		direction = 4;
+		    		while(used(x, y)){
+		    			x++;
+		    		}
 		    	}
 		    }
 		    else if(direction == 3){                            //Ausrichtung nach Unten
 		    	if(!used(x, y + 1) && (y + 1) < max_Y){
 		    	   	y++;
 		    	}
+		    	else{
+		    		direction = 1;
+		    		while(used(x, y)){
+		    		   y--;
+		    		}
+		    	}
 		    }
 		    else if(direction == 4){                            //Ausrichtung nach Rechts
 		    	if(!used(x + 1, y) && (x + 1) < max_X){
 		    	    x++;
+		    	}
+		    	else{
+		    		direction = 2;
+		    		while(used(x, y)){
+		    			x--;
+		    		}
+
 		    	}
 		    }
 
@@ -348,7 +417,7 @@ string myTCPclient::processSec(string message){
 		ocean[last_X][last_Y] = 2;
 		direction = 0;
 		steps++;
-		nextSECStep();
+		nextSECStepAH();
 
 		tmp << "shoot " << last_X + 1 << " " << last_Y + 1;
 	}
@@ -427,6 +496,125 @@ string myTCPclient::processDia(string message){
 	return response;
 }
 
+int myTCPclient::EveryField(){
+	int count = 0;
+
+	for(int y = 0; y < 10; y++){
+		for(int x = 0; x < 10; x++){
+			ostringstream tmp;
+		    string msg;
+
+			tmp << "shoot " << x + 1 << " " << y + 1;
+			msg = tmp.str();
+			sendData(msg);
+			sleep(0.3);
+			count++;
+
+			cout << "Sends: " << msg << endl;
+			msg = receive(32);
+			sleep(0.3);
+			cout << "Response: " << msg << endl;
+
+			if(msg.compare(0, 19, "ALL_SHIPS_DESTROYED") == 0 || msg.compare(0, 9, "GAME_OVER") == 0){
+				y = 10;
+				x = 10;
+			}
+		}
+	}
+
+	return count;
+}
+
+int myTCPclient::Random(){
+	srand(time(NULL));
+
+	int count = 0;
+	bool finish = false;
+
+	int x;
+	int y;
+
+	do{
+		ostringstream tmp;
+	    string msg;
+
+	    x = rand() % 10;
+	    y = rand() % 10;
+
+
+	    if(!used(x, y)){
+	        tmp << "shoot " << x + 1 << " " << y + 1;
+	    	msg = tmp.str();
+	    	sendData(msg);
+	    	sleep(0.3);
+	    	count++;
+	    	ocean[x][y] = 1;
+
+	    	cout << "Sends: " << msg << endl;
+	    	msg = receive(32);
+	    	sleep(0.3);
+	    	cout << "Response: " << msg << endl;
+	    }
+        if(msg.compare(0, 19, "ALL_SHIPS_DESTROYED") == 0 || msg.compare(0, 9, "GAME_OVER") == 0){
+			finish = true;
+		}
+	} while (!finish);
+
+	return count;
+}
+
+int myTCPclient::Sec(){
+	steps = 0;
+
+	bool running = false;
+	string res;
+	string msg;
+
+	ostringstream tmp;
+	tmp << "shoot " << 1 << " " << 1;
+	running = sendData(tmp.str());
+
+
+	do{
+	    msg = receive(32);
+	    cout << "Response: " << msg << endl;
+	    res = processSec(msg);
+	    running = sendData(res);
+	    cout << "Sends: " << res << endl;
+	    if(msg.compare(0, 19, "ALL_SHIPS_DESTROYED") == 0 || msg.compare(0, 9, "GAME_OVER") == 0){
+	    	running = false;
+	    }
+	} while(running);
+
+	return steps;
+}
+
+int myTCPclient::Dia(){
+	steps = 0;
+
+	bool running = false;
+	string res;
+	string msg;
+
+	ostringstream tmp;
+	tmp << "shoot " << 1 << " " << 1;
+	running = sendData(tmp.str());
+
+
+	do{
+	    msg = receive(32);
+	    cout << "Response: " << msg << endl;
+	    res = processDia(msg);
+	    running = sendData(res);
+	    cout << "Sends: " << res << endl;
+	    if(msg.compare(0, 19, "ALL_SHIPS_DESTROYED") == 0 || msg.compare(0, 9, "GAME_OVER") == 0){
+	    	running = false;
+	    }
+	} while(running);
+
+	return steps;
+}
+
 int main() {
 	myTCPclient c;
 	string host = "localhost";
@@ -438,11 +626,11 @@ int main() {
 	c.conn(host , 2025);
 	msg = "new game";
 	c.sendData(msg);
-	sleep(1);
+	sleep(0.3);
 
 
 	//Auführung  Client
-	bool goOn = true;
+	/*bool goOn = true;
 
 	while(goOn){
 		msg = c.receive(32);
@@ -455,7 +643,11 @@ int main() {
 		}
 		sleep(1);
 	}
-	count = c.getSteps();
+	count = c.getSteps();*/
+
+	count = c.Random();
+	cout << "Needed steps: " << count << endl;
+
 
 
 

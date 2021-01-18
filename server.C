@@ -47,7 +47,7 @@ string myTCPserver::myResponse(string input){
 	}
 	else if(input.compare(0, 8, "Not found") == 0){
 		//ocean = new World();
-		return string("Game restarted\n");
+		return string("Wait for new command\n");
 	}
 	else{
 	return string("Command not found\n");
