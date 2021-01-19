@@ -22,7 +22,7 @@
 class myTCPserver : public TCPserver{
 public:
 	myTCPserver(int port, int maxDataSizeRecv) : TCPserver(port, maxDataSizeRecv){;}
-	void game();
+
 
 protected:
 	string myResponse(string input);
@@ -30,6 +30,7 @@ protected:
 private:
 	TASK3::World ocean;
 	string hit(int x, int y);
+	void game();
 
 };
 

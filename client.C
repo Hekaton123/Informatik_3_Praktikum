@@ -57,7 +57,7 @@ myTCPclient::myTCPclient(){
 	max_X = 10;
 	max_Y = 10;
 	steps = 0;
-	ocean = (int**) new int[max_X];
+	ocean = new int*[max_X];
 	for(int i = 0; i < max_X; i++){
 		ocean[i] = new int[max_Y];
 	}
@@ -73,37 +73,45 @@ int myTCPclient::getSteps(){
 
 
 bool myTCPclient::used(int x, int y){
-	cout << x << y;
+	cout << x << y << endl;
+	if(x >= 0 && x < max_X && y >= 0 && y < max_Y){
 	return !ocean[x][y] == 0;
+	}
+	return false;
 }
 
 bool myTCPclient::hasNeighbor(){
 	bool tmp = false;
+
+	int x = last_X;
+	int y = last_Y;
+
 	switch(direction){
 			case 1:
-				if(ocean[last_X][last_Y + 2] == 2){
+				if((y + 2) < max_Y && ocean[x][y + 2] == 2){
 					tmp = true;
 				}
 				break;
 			case 2:
-				if(ocean[last_X + 2][last_Y] == 2){
+				if((x + 2) < max_X && ocean[x + 2][y] == 2){
 					tmp = true;
 				}
 				break;
 			case 3:
-				if(ocean[last_X][last_Y - 2] == 2){
-						tmp = true;
+				if((y - 2) >= 0 && ocean[x][y - 2] == 2){
+					tmp = true;
 				}
 				break;
 			case 4:
 				direction = 2;
-				if(ocean[last_X - 2][last_Y] == 2){
-						tmp = true;
+				if((x - 2) >= 0 && ocean[x - 2][y] == 2){
+					tmp = true;
 				}
 				break;
 			default:
 				break;
 			}
+	cout << "hasNeighbour" << tmp << endl;
 	return tmp;
 }
 
@@ -144,11 +152,13 @@ void myTCPclient::nextSECStep(){
 		if((x + 2) < max_X){
 				x = x + 2;
 		}
-		else {
-			x = max_X - (x + 2);
+		else if((y + 1) < max_Y){
+			x = (max_X + 1) - (x + 2);
+			if(x < 0){
+				x = x * (-1);
+			}
 			y++;
 		}
-
 	}
 
 		last_X = x;
@@ -164,8 +174,11 @@ void myTCPclient::nextSECStepAH(){
 		if((x + 2) < max_X){
 			x = x + 2;
 		}
-		else {
-			x = max_X - (x + 2);
+		else if((y + 1) < max_Y){
+			x = (max_X + 1) - (x + 2);
+			if(x < 0){
+				x = x * (-1);
+			}
 			y++;
 		}
 
@@ -208,6 +221,7 @@ void myTCPclient::nextDIAStep(){
 }
 
 void myTCPclient::findShip(){
+	cout << "findShip Anfang" << direction << endl;
 	int x = last_X;
 	int y = last_Y;
 	if(hasNeighbor()){
@@ -263,11 +277,16 @@ void myTCPclient::findShip(){
 
 		bool possible = false;
 
-		while(direction < 4 && !possible){
-				direction++;
+		while(direction <= 4 && !possible){
+			    if(direction == 4){
+			    	direction = 1;
+			    }
+			    else{
+				    direction++;
+			    }
 				switch(direction){
 				case 1:
-					if(!used(x, y - 1) && y >= 0){
+					if(!used(x, y - 1) && (y - 1) >= 0){
 						y--;
 						possible = true;
 					}
@@ -276,7 +295,7 @@ void myTCPclient::findShip(){
 					}
 					break;
 				case 2:
-					if(!used(x - 1, y) && x >= 0){
+					if(!used(x - 1, y) && (x - 1) >= 0){
 						x--;
 						possible = true;
 					}
@@ -285,7 +304,7 @@ void myTCPclient::findShip(){
 					}
 					break;
 				case 3:
-					if(!used(x, y + 1) && y < max_Y){
+					if(!used(x, y + 1) && (y + 1) < max_Y){
 						y++;
 						possible = true;
 					}
@@ -294,7 +313,7 @@ void myTCPclient::findShip(){
 					}
 					break;
 				case 4:
-					if(!used(x + 1, y) && x < max_X){
+					if(!used(x + 1, y) && (x + 1) < max_X){
 						x++;
 						possible = true;
 					}
@@ -308,18 +327,19 @@ void myTCPclient::findShip(){
 			}
 
 	}
-
+	cout << "findShip Ende" << direction << endl;
 	last_X = x;
 	last_Y = y;
 }
 
 
 void myTCPclient::destroy(){
+	cout << "destroy" << endl;
 	int x = last_X;
 	int y = last_Y;
 
 
-	if(direction == 0){                                  //Ausrichtung des Schiffs unbekannt
+	if(direction == 0){                                  //Ausrichtung des Schiffs noch unbekannt
 		        if(!used(x, last_Y - 1) && (y - 1) >= 0){
 		    		direction = 1;
 		    		y--;
@@ -353,6 +373,7 @@ void myTCPclient::destroy(){
 		    }
 		    else if(direction == 2){                            //Ausrichtung nach Links
 		    	if(!used(x - 1, y) && (x - 1) >= 0){
+		    		x--;
 		    	}
 		    	else{
 		    		direction = 4;
@@ -541,10 +562,14 @@ int myTCPclient::Random(){
 	    x = rand() % 10;
 	    y = rand() % 10;
 
+	    cout << x << "\n";
+	    cout << y << "\n";
+
 
 	    if(!used(x, y)){
 	        tmp << "shoot " << x + 1 << " " << y + 1;
 	    	msg = tmp.str();
+	    	cout << "Sends: " << msg << endl;
 	    	sendData(msg);
 	    	sleep(0.3);
 	    	count++;
@@ -576,14 +601,18 @@ int myTCPclient::Sec(){
 
 
 	do{
+		sleep(0.5);
 	    msg = receive(32);
 	    cout << "Response: " << msg << endl;
+	    cout << "Vor" << endl;
 	    res = processSec(msg);
+	    cout << "Nach" << endl;
 	    running = sendData(res);
 	    cout << "Sends: " << res << endl;
 	    if(msg.compare(0, 19, "ALL_SHIPS_DESTROYED") == 0 || msg.compare(0, 9, "GAME_OVER") == 0){
 	    	running = false;
 	    }
+	    cout << steps << endl;
 	} while(running);
 
 	return steps;
@@ -645,7 +674,7 @@ int main() {
 	}
 	count = c.getSteps();*/
 
-	count = c.Random();
+	count = c.Sec();
 	cout << "Needed steps: " << count << endl;
 
 
