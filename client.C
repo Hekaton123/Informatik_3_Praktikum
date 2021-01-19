@@ -73,7 +73,7 @@ int myTCPclient::getSteps(){
 
 
 bool myTCPclient::used(int x, int y){
-	cout << x << y << endl;
+	//cout << x << y << endl;
 	if(x >= 0 && x < max_X && y >= 0 && y < max_Y){
 	return !ocean[x][y] == 0;
 	}
@@ -511,6 +511,8 @@ int myTCPclient::EveryField(){
 			if(msg.compare(0, 19, "ALL_SHIPS_DESTROYED") == 0 || msg.compare(0, 9, "GAME_OVER") == 0){
 				y = 10;
 				x = 10;
+				sendData("BYEBYE");
+				msg = receive(32);
 			}
 		}
 	}
@@ -521,6 +523,12 @@ int myTCPclient::EveryField(){
 int myTCPclient::Random(){
 	srand(time(NULL));
 
+	string msg;
+
+	msg = "new game";
+	sendData(msg);
+	sleep(0.3);
+
 	int count = 0;
 	bool finish = false;
 
@@ -529,30 +537,26 @@ int myTCPclient::Random(){
 
 	do{
 		ostringstream tmp;
-	    string msg;
 
 	    x = rand() % 10;
 	    y = rand() % 10;
 
-	    cout << x << "\n";
-	    cout << y << "\n";
-
-
 	    if(!used(x, y)){
 	        tmp << "shoot " << x + 1 << " " << y + 1;
 	    	msg = tmp.str();
-	    	cout << "Sends: " << msg << endl;
 	    	sendData(msg);
 	    	sleep(0.3);
 	    	count++;
 	    	ocean[x][y] = 1;
+            //cout << "Sends: " << msg << endl;
 
-	    	cout << "Sends: " << msg << endl;
 	    	msg = receive(32);
 	    	sleep(0.3);
-	    	cout << "Response: " << msg << endl;
+	    	//cout << "Response: " << msg << endl;
 	    }
         if(msg.compare(0, 19, "ALL_SHIPS_DESTROYED") == 0 || msg.compare(0, 9, "GAME_OVER") == 0){
+        	sendData("BYEBYE");
+        	msg = receive(32);
 			finish = true;
 		}
 	} while (!finish);
@@ -566,6 +570,11 @@ int myTCPclient::Sec(){
 	bool running = false;
 	string res;
 	string msg;
+
+	msg = "new game";
+	sendData(msg);
+	msg = receive(32);
+	sleep(0.3);
 
 	ostringstream tmp;
 	tmp << "shoot " << 1 << " " << 1;
@@ -583,6 +592,8 @@ int myTCPclient::Sec(){
 	    cout << "Sends: " << res << endl;
 	    sleep(0.5);
 	    if(msg.compare(0, 19, "ALL_SHIPS_DESTROYED") == 0 || msg.compare(0, 9, "GAME_OVER") == 0){
+	    	sendData("BYEBYE");
+	    	msg = receive(32);
 	    	running = false;
 	    }
 	    cout << steps << endl;
@@ -626,32 +637,11 @@ int main() {
 
 	//connect to host
 	c.conn(host , 2035);
-	msg = "new game";
-	c.sendData(msg);
-	sleep(0.3);
 
-
-	//Auführung  Client
-	/*bool goOn = true;
-
-	while(goOn){
-		msg = c.receive(32);
-		cout << "Response: " << msg << endl;
-		res = c.processSec(msg);
-		goOn = c.sendData(res);
-		cout << "Sends: " << res << endl;
-		if(res.compare(0, 6, "BYEBYE") == 0){
-			goOn = false;
-		}
-		sleep(1);
-	}
-	count = c.getSteps();*/
-
-	count = c.Sec();
-	cout << "Needed steps: " << count << endl;
-
-
-
+	//for(int i = 0; i < 2; i++){
+		count = c.Sec();
+		cout << "Needed steps: " << count << endl;
+	//}
 
 }
 

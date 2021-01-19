@@ -28,7 +28,7 @@ protected:
 	string myResponse(string input);
 
 private:
-	TASK3::World ocean;
+	TASK3::World *ocean;
 	string hit(int x, int y);
 	void game();
 
@@ -37,7 +37,7 @@ private:
 
 string myTCPserver::myResponse(string input){
 	if(input.compare(0, 8, "new game") == 0){
-		//ocean = new TASK3::World();
+		ocean = new TASK3::World();
 		game();
 		return string("Created new Game\n");
 	}
@@ -58,7 +58,7 @@ string myTCPserver::myResponse(string input){
 using namespace TASK3;
 
 string myTCPserver::hit(int x, int y){
-	ShootResult tmp = ocean.shoot(x, y);
+	ShootResult tmp = ocean->shoot(x, y);
 	game();
 	switch(tmp){
 	case WATER:
@@ -83,7 +83,7 @@ string myTCPserver::hit(int x, int y){
 
 
 void myTCPserver::game(){
-	ocean.printBoard();
+	ocean->printBoard();
 }
 
 
