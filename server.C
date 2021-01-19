@@ -89,7 +89,7 @@ void myTCPserver::game(){
 
 int main(){
 	srand(time(nullptr));
-	myTCPserver srv(2025,25);
+	myTCPserver srv(2035,25);
 	srv.run();
 }
 

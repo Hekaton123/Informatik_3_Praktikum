@@ -116,34 +116,6 @@ bool myTCPclient::hasNeighbor(){
 }
 
 void myTCPclient::nextSECStep(){
-	/*bool a = false;
-		int x = 0;
-		int y = 0;
-
-		if(steps > 0){
-			for(int i = 0; i < max_Y; i++){
-					for(int j = 0; j < max_X; j++){
-						if(!used(max_X, max_Y)){
-							if(!a){
-								a = true;
-							}
-							else{
-								x = j;
-								y = i;
-								i = max_X;
-								j = max_Y;
-							}
-						}
-						else{
-							a = false;
-						}
-					}
-				}
-		}
-
-
-		last_X = x;
-		last_Y = y;*/
 
 	int x = last_X;
 	int y = last_Y;
@@ -228,25 +200,25 @@ void myTCPclient::findShip(){
 		switch(direction){
 		case 1:
 			direction = 3;
-			while(used(x, y)){
+			while((y + 1) < max_Y && used(x, y)){
 				y++;
 			}
 			break;
 		case 2:
 			direction = 4;
-			while(used(x, y)){
+			while((x + 1) < max_X && used(x, y)){
 				x++;
 			}
 			break;
 		case 3:
 			direction = 1;
-			while(used(x, y)){
+			while((y - 1) >= 0 && used(x, y)){
 				y--;
 			}
 			break;
 		case 4:
 			direction = 2;
-			while(used(x, y)){
+			while((x - 1) >= 0 && used(x, y)){
 				x--;
 			}
 			break;
@@ -601,14 +573,15 @@ int myTCPclient::Sec(){
 
 
 	do{
-		sleep(0.5);
 	    msg = receive(32);
 	    cout << "Response: " << msg << endl;
+	    sleep(0.5);
 	    cout << "Vor" << endl;
 	    res = processSec(msg);
 	    cout << "Nach" << endl;
 	    running = sendData(res);
 	    cout << "Sends: " << res << endl;
+	    sleep(0.5);
 	    if(msg.compare(0, 19, "ALL_SHIPS_DESTROYED") == 0 || msg.compare(0, 9, "GAME_OVER") == 0){
 	    	running = false;
 	    }
@@ -652,7 +625,7 @@ int main() {
 	int count;
 
 	//connect to host
-	c.conn(host , 2025);
+	c.conn(host , 2035);
 	msg = "new game";
 	c.sendData(msg);
 	sleep(0.3);
