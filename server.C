@@ -37,6 +37,7 @@ private:
 
 string myTCPserver::myResponse(string input){
 	if(input.compare(0, 8, "new game") == 0){
+		delete ocean;
 		ocean = new TASK3::World();
 		game();
 		return string("Created new Game\n");
@@ -58,6 +59,9 @@ string myTCPserver::myResponse(string input){
 using namespace TASK3;
 
 string myTCPserver::hit(int x, int y){
+	if(x > 10 || y > 10){
+		return "Not on field";
+	}
 	ShootResult tmp = ocean->shoot(x, y);
 	game();
 	switch(tmp){
@@ -89,7 +93,7 @@ void myTCPserver::game(){
 
 int main(){
 	srand(time(nullptr));
-	myTCPserver srv(2035,25);
+	myTCPserver srv(2015,25);
 	srv.run();
 }
 

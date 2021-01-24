@@ -20,8 +20,6 @@ using namespace std;
 class myTCPclient : public TCPclient{
 public:
 	myTCPclient();
-	string processSec(string message);              //Arbeitet mit den Antworten des Servers
-	string processDia(string message);              //Arbeitet mit den Antworten des Servers
 	int getSteps();
 	int EveryField();
 	int Random();
@@ -35,9 +33,9 @@ private:
 	int last_X;
 	int last_Y;
 	int ** ocean;                                //Spielfeld des Clients
+	string processSec(string message);           //Arbeitet mit den Antworten des Servers
 	void nextSECStep();                          //Sucht das nächste noch nicht betrachtete Feld in zweier Schritten
-	void nextSECStepAH();                         //Sucht nachdem ein Schiff zerstört wurde, das nächste noch nicht betrachtete Feld in zweier Schritten ausgehend vom ersten Treffer an dem Schiff
-	void nextDIAStep();                          //Sucht das nächste noch nicht betrachtete Feld in einer festgelegten Diagonalen
+	void nextSECStepAH();                        //Sucht nachdem ein Schiff zerstört wurde, das nächste noch nicht betrachtete Feld in zweier Schritten ausgehend vom ersten Treffer an dem Schiff
 	bool used(int x, int y);                     //Überprüft ob die Stell (X/Y) schon betrachtet wurde
 	int steps;                                   //Zählt die Anzahl der benötigten Züge
 	int max_X;
@@ -550,8 +548,8 @@ int main() {
 	//connect to host
 	c.conn(host , 2015);
 
-	for(int i = 0; i < 10; i++){
-		count = c.Sec();
+	for(int i = 0; i < 50; i++){
+		count = c.EveryField();
 		cout << count << endl;
 	}
 
