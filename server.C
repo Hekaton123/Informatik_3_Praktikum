@@ -21,15 +21,44 @@
 
 class myTCPserver : public TCPserver{
 public:
+	/**
+	 * \brief Konstruktor
+	 *
+	 * \param port int Nummer des Clients
+	 *
+	 * \param maxDataSizeRecv int maximale Größe der Nachricht, die vom Server Empfangen werden kann
+	 */
 	myTCPserver(int port, int maxDataSizeRecv) : TCPserver(port, maxDataSizeRecv){;}
 
-
 protected:
-	string myResponse(string input);
+
 
 private:
+	/**
+	 * \brief ocean dient als Pointer zu einem Objekt der Klasse World.
+	 */
 	TASK3::World *ocean;
+	/**
+	 * \brief Antwortet dem Client auf eine Nachricht.
+	 *
+	 * \param input string enthält die Nachricht des Clients.
+	 *
+	 * \return string enthält die Antwort des Servers.
+	 */
+	string myResponse(string input);
+	/**
+	 * \brief Ausführung eines Schusses.
+	 *
+	 * \param x int ist X-Koordinate.
+	 *
+	 * \param y int ist Y-Koordinate.
+	 *
+	 * \return string gibt an, was getroffen wurde.
+	 */
 	string hit(int x, int y);
+	/**
+	 * \brief führt die print-Methode der Klasse World aus.
+	 */
 	void game();
 
 };
@@ -46,10 +75,6 @@ string myTCPserver::myResponse(string input){
 		int x, y;
 		sscanf(input.c_str(), "shoot %i %i", &x, &y);
 		return hit(x, y);
-	}
-	else if(input.compare(0, 8, "Not found") == 0){
-		//ocean = new World();
-		return string("Wait for new command\n");
 	}
 	else{
 	return string("Command not found\n");

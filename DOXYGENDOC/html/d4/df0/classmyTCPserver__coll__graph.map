@@ -1,0 +1,6 @@
+<map id="myTCPserver" name="myTCPserver">
+<area shape="rect" id="node2" href="$dc/d0f/classTCPserver.html" title="The class defining the of a TCP/IP server. " alt="" coords="5,184,91,211"/>
+<area shape="rect" id="node3" href="$d1/d6d/classTASK3_1_1World.html" title="This class represents the game board. " alt="" coords="115,184,221,211"/>
+<area shape="rect" id="node4" href="$d2/db2/classTASK3_1_1Ship.html" title="Implements the data structure for the battle ships. " alt="" coords="119,95,217,121"/>
+<area shape="rect" id="node5" href="$d6/d9a/classTASK3_1_1Block.html" title="Implements a class that is the basic building block of the game world. " alt="" coords="115,5,221,32"/>
+</map>

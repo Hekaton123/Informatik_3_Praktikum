@@ -19,33 +19,109 @@ using namespace std;
 
 class myTCPclient : public TCPclient{
 public:
+	/**
+	 * \brief Konstruktor der Oberklass wird ausgeführt und Attribute werden Initialisiert.
+	 */
 	myTCPclient();
-	int getSteps();
+	/**
+	 * \brief Vorgehen 1: Jedes Feld wird betrachtet.
+	 *
+	 * \return int beinhaltet benötigte Züge.
+	 */
 	int EveryField();
+	/**
+	 * \brief Vorgehen 2: Jedes Feld wird zufällig betrachtet.
+	 *
+	 * \return int beinhaltet benötigte Züge.
+	 */
 	int Random();
+	/**
+	 * \brief Vorgehen 3: Jedes zweite Feld zuzüglich Anwendung einer Strategie.
+	 *
+	 * \return int beinhaltet benötigte Züge.
+	 */
 	int Sec();
-	int Dia();
-
 
 protected:
 
 private:
+	/**
+	 * \brief Letze betrachtete X-Koordinate.
+	 */
 	int last_X;
+	/**
+	 * \brief Letze betrachtete X-Koordinate.
+	 */
 	int last_Y;
-	int ** ocean;                                //Spielfeld des Clients
-	string processSec(string message);           //Arbeitet mit den Antworten des Servers
-	void nextSECStep();                          //Sucht das nächste noch nicht betrachtete Feld in zweier Schritten
-	void nextSECStepAH();                        //Sucht nachdem ein Schiff zerstört wurde, das nächste noch nicht betrachtete Feld in zweier Schritten ausgehend vom ersten Treffer an dem Schiff
-	bool used(int x, int y);                     //Überprüft ob die Stell (X/Y) schon betrachtet wurde
-	int steps;                                   //Zählt die Anzahl der benötigten Züge
+	/**
+	 * \brief Spielfeld des Clients.
+	 */
+	int ** ocean;
+	/**
+	 * \brief Arbeitet mit den Antworten des Servers.
+	 *
+	 * \param message Antwort des Servers.
+	 *
+	 * \return string enthält ermittelten nächsten Zug.
+	 */
+	string processSec(string message);
+	/**
+	 * \brief Sucht das nächste noch nicht betrachtete Feld in zweier Schritten.
+	 */
+	void nextSECStep();
+	/**
+	 * \brief Sucht nachdem ein Schiff zerstört wurde, das nächste noch nicht betrachtete Feld in zweier Schritten ausgehend vom ersten Treffer an dem Schiff.
+	 */
+	void nextSECStepAH();
+	/**
+	 * \brief Überprüft ob die Stell (X/Y) schon betrachtet wurde.
+	 *
+	 * \param x int der X-Koordinate.
+	 *
+	 * \param y int der Y-Koordinate.
+	 *
+	 * \return true wenn schon betrachtet.
+	 */
+	bool used(int x, int y);
+	/**
+	 * brief Zählt die Anzahl der benötigten Züge für das dritte Vorgehen.
+	 */
+	int steps;
+	/**
+	 * \brief Maximale X-Koordinate des Spielfelds.
+	 */
 	int max_X;
+	/**
+	 * \brief Maximale Y-Koordinate des Spielfelds.
+	 */
 	int max_Y;
-	int direction;                               //Beschreibt die Ausrichtung des Schiffs, wenn ein treffer erzielt wurde
-	void findShip();                             //Sucht die nächste mögliche Stelle, wenn nach einem treffer wieder das Wasser getroffen worden ist
-    bool hasNeighbor();                          //Überprüft, ob das Schiff bereits einen treffer hat
+	/**
+	 * \brief Beschreibt die Ausrichtung des Schiffs, wenn ein treffer erzielt wurde.
+	 */
+	int direction;
+	/**
+	 * \brief Sucht die nächste mögliche Stelle, wenn nach einem treffer wieder das Wasser getroffen worden ist.
+	 */
+	void findShip();
+	/**
+	 * \brief Überprüft, ob das Schiff bereits einen treffer hat.
+	 */
+    bool hasNeighbor();
+    /**
+     * \brief Sucht die nächste mögliche Stelle, wenn zuvor ein Treffer gemacht wurde.
+     */
     void destroy();
+    /**
+     * \brief Erste X-Koordinate bei einem Schiffs Treffer.
+     */
     int lastHit_X;
+    /**
+     * \brief //Erste Y-Koordinate bei einem Schiffs Treffer.
+     */
     int lastHit_Y;
+    /**
+     * \brief Stellt alle Membervariablen auf die Startwerte zurück.
+     */
     void reset();
 };
 
@@ -62,10 +138,6 @@ myTCPclient::myTCPclient(){
 	direction = 0;
 	lastHit_X = 0;
 	lastHit_Y = 0;
-}
-
-int myTCPclient::getSteps(){
-	return steps;
 }
 
 void myTCPclient::reset(){
@@ -400,6 +472,7 @@ string myTCPclient::processSec(string message){
 
 	}
 	else if(message.compare(0, 16, "Created new Game") == 0){
+		steps++;
 		tmp << "shoot " << 1 << " " << 1;
 
 	}
@@ -511,12 +584,6 @@ int myTCPclient::Sec(){
 	msg = receive(32);
 	sleep(0.3);
 
-	ostringstream tmp;
-	tmp << "shoot " << 1 << " " << 1;
-	running = sendData(tmp.str());
-	msg = receive(32);
-
-
 	do{
 		res = processSec(msg);
 		running = sendData(res);
@@ -534,7 +601,6 @@ int myTCPclient::Sec(){
 	} while(running);
 
 
-
 	return steps;
 }
 
@@ -548,8 +614,8 @@ int main() {
 	//connect to host
 	c.conn(host , 2015);
 
-	for(int i = 0; i < 50; i++){
-		count = c.EveryField();
+	for(int i = 0; i < 20; i++){
+		count = c.Sec();
 		cout << count << endl;
 	}
 
