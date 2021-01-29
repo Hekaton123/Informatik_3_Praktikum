@@ -89,7 +89,7 @@ string myTCPserver::hit(int x, int y){
 	}
 	ShootResult tmp = ocean->shoot(x, y);
 	game();
-	switch(tmp){
+	switch(tmp){                                 //Dient zum "umschreiben" von shootResult in string
 	case WATER:
 		return "WATER\n";
 		break;

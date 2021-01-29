@@ -108,7 +108,7 @@ private:
 	 */
     bool hasNeighbor();
     /**
-     * \brief Sucht die nächste mögliche Stelle, wenn zuvor ein Treffer gemacht wurde.
+     * \brief Sucht die nächste mögliche Stelle, wenn zuvor ein Treffer gemacht wurde (0 = Unbekannt; 1 = Oben; 2 = Links; 3 = Unten; 4 = Rechts).
      */
     void destroy();
     /**
@@ -205,7 +205,7 @@ void myTCPclient::nextSECStep(){
 		if((x + 2) < max_X){
 				x = x + 2;
 		}
-		else if((y + 1) < max_Y){
+		else if((y + 1) < max_Y){                   // Jede Zeile soll versetzt beginnen.
 			x = (max_X + 1) - (x + 2);
 			if(x < 0){
 				x = x * (-1);
@@ -245,8 +245,8 @@ void myTCPclient::nextSECStepAH(){
 void myTCPclient::findShip(){
 	int x = last_X;
 	int y = last_Y;
-	if(hasNeighbor()){
-		switch(direction){
+	if(hasNeighbor()){                                  //Wenn bereits 2 Schiffs Treffer erzielt wurden muss nach einem
+		switch(direction){                              //Wassertreffer zum anderen Ende des Schiffs gegangen werden.
 		case 1:
 			direction = 3;
 			while((y + 1) < max_Y && used(x, y)){
@@ -277,7 +277,7 @@ void myTCPclient::findShip(){
 	}
 	else{
 
-		switch(direction){         //X und Y auf Position des Treffers setzen
+		switch(direction){         //X und Y zurück auf Position des Treffers setzen.
 		case 1:
 			y++;
 		  break;
@@ -298,14 +298,14 @@ void myTCPclient::findShip(){
 
 		bool possible = false;
 
-		if(direction == 4){
+		if(direction == 4){                                        //Ausrichtung wird um eins verändert.
 			direction = 1;
 		}
 		else{
 			direction++;
 		}
 
-		while(direction <= 4 && !possible){
+		while(direction <= 4 && !possible){                        //Ausrichtung wird solange verändert, bis eine möglich sein könnte.
 				switch(direction){
 				case 1:
 					if(!used(x, y - 1) && (y - 1) >= 0){
@@ -364,7 +364,7 @@ void myTCPclient::destroy(){
 	int y = last_Y;
 
 
-	if(direction == 0){                                  //Ausrichtung des Schiffs noch unbekannt
+	if(direction == 0){                                          //Ausrichtung des Schiffs noch unbekannt
 		        if(!used(x, last_Y - 1) && (y - 1) >= 0){
 		    		direction = 1;
 		    		y--;
@@ -439,19 +439,19 @@ void myTCPclient::destroy(){
 string myTCPclient::processSec(string message){
 	ostringstream tmp;
 
-	if(message.compare(0, 5, "WATER") == 0){
+	if(message.compare(0, 5, "WATER") == 0){                        //Wassertreffer
 		ocean[last_X][last_Y] = 1;
-		if(direction == 0){
+		if(direction == 0){                                         //Keine Ausrichtung => zuvor kein Treffer
 			nextSECStep();
 		}
-		else{
+		else{                                                       //Bei vorherigen Treffer neue mögliche Stelle suchen.
 			findShip();
 		}
 
 		steps++;
 		tmp << "shoot " << last_X + 1 << " " << last_Y + 1;
 	}
-	else if(message.compare(0, 8, "SHIP_HIT") == 0){
+	else if(message.compare(0, 8, "SHIP_HIT") == 0){                //Schiffs Treffer
 		ocean[last_X][last_Y] = 2;
 		steps++;
 	    destroy();
@@ -459,24 +459,24 @@ string myTCPclient::processSec(string message){
 	    tmp << "shoot " << last_X + 1 << " " << last_Y + 1;
 
 	}
-	else if(message.compare(0, 14, "SHIP_DESTROYED") == 0){
+	else if(message.compare(0, 14, "SHIP_DESTROYED") == 0){         //Schiff zerstört
 		ocean[last_X][last_Y] = 2;
 		direction = 0;
 		steps++;
-		nextSECStepAH();
+		nextSECStepAH();                                            //Nächstes Ziel wird ausgehend von dem ersten Treffer gesucht.
 
 		tmp << "shoot " << last_X + 1 << " " << last_Y + 1;
 	}
-	else if(message.compare(0, 19, "ALL_SHIPS_DESTROYED") == 0){
+	else if(message.compare(0, 19, "ALL_SHIPS_DESTROYED") == 0){    //Alle Schiffe zerstört => Spiel vorbei
 		tmp << "BYEBYE";
 
 	}
-	else if(message.compare(0, 16, "Created new Game") == 0){
+	else if(message.compare(0, 16, "Created new Game") == 0){       //Anfrage neues Spiel zu erstellen => wird auf das erste Feld geschoßen.
 		steps++;
 		tmp << "shoot " << 1 << " " << 1;
 
 	}
-	else if(message.compare(0, 9, "GAME_OVER") == 0){
+	else if(message.compare(0, 9, "GAME_OVER") == 0){               //Alle Schiffe zerstört => Spiel vorbei
 		tmp << "BYEBYE";
 
 	}
@@ -614,8 +614,8 @@ int main() {
 	//connect to host
 	c.conn(host , 2015);
 
-	for(int i = 0; i < 20; i++){
-		count = c.Sec();
+	for(int i = 0; i < 10; i++){               //Hier die gewünschte Ausführung angeben
+		count = c.Sec();                       // -> EveryField() ; Random() ; Sec()
 		cout << count << endl;
 	}
 
